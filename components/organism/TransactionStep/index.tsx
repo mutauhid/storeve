@@ -1,6 +1,6 @@
 import StepItem from "@/components/molecules/StepItem/Index";
 
-const TransactiopStep = () => {
+const TransactionStep = () => {
   return (
     <section id="feature" className="feature pt-50 pb-50">
       <div className="container-fluid">
@@ -33,4 +33,4 @@ const TransactiopStep = () => {
   );
 };
 
-export default TransactiopStep;
+export default TransactionStep;
