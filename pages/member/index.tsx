@@ -6,7 +6,7 @@ const Member = () => {
   return (
     <>
       <section className="overview overflow-auto">
-        <Sidebar />
+        <Sidebar activeMenu="overview" />
         <OverviewContent />
       </section>
     </>
