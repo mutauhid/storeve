@@ -17,6 +17,7 @@ import "../styles/navbar-log-in.css";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { SSRProvider } from "react-bootstrap";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -50,7 +51,9 @@ export default function App({ Component, pageProps }: AppProps) {
           crossOrigin="anonymous"
         ></script>
       </Head>
-      <Component {...pageProps} />
+      <SSRProvider>
+        <Component {...pageProps} />
+      </SSRProvider>
     </>
   );
 }
