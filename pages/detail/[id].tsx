@@ -2,9 +2,34 @@ import Footer from "@/components/organism/Footer";
 import TopupItem from "@/components/organism/TopUpItem";
 import TopupForm from "@/components/organism/TopupForm";
 import Navbar from "@/components/organism/navbar";
-import React from "react";
+import { getVoucherDetail } from "@/services/player";
+import { useRouter } from "next/router";
+import React, { useCallback, useEffect, useState } from "react";
 
 const Index = () => {
+  const { query, isReady } = useRouter();
+  const [detailVoucher, setDetailVoucher] = useState({
+    name: "",
+    thumbnail: "",
+    category: { name: "" },
+  });
+
+  const [nominals, setNominals] = useState([]);
+  const [payments, setPayments] = useState([]);
+
+  const getVoucherDetailAPI = useCallback(async (id: any) => {
+    const data = await getVoucherDetail(id);
+    setDetailVoucher(data.details);
+    setNominals(data.details.nominals);
+    setPayments(data.payment);
+  }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      getVoucherDetailAPI(query.id);
+    }
+  }, [isReady]);
+
   return (
     <>
       <Navbar />
@@ -20,29 +45,16 @@ const Index = () => {
           </div>
           <div className="row">
             <div className="col-xl-3 col-lg-4 col-md-5 pb-30 pb-md-0 pe-md-25 text-md-start">
-              <div className="row align-items-center">
-                <div className="col-md-12 col-4">
-                  <img
-                    src="/img/Thumbnail-3.png"
-                    width="280"
-                    height="380"
-                    className="img-fluid"
-                    alt=""
-                  />
-                </div>
-                {/* <!-- Mobile: Game title --> */}
-                <div className="col-md-12 col-8 d-md-none d-block">
-                  <TopupItem type="mobile" />
-                </div>
-              </div>
+              <TopupItem type="mobile" data={detailVoucher} />
             </div>
             <div className="col-xl-9 col-lg-8 col-md-7 ps-md-25">
               {/* <!-- Desktop: Game title --> */}
-              <TopupItem type="desktop" />
+              <TopupItem type="desktop" data={detailVoucher} />
               <hr />
-              <TopupForm />
+              <TopupForm nominals={nominals} payments={payments} />
             </div>
           </div>
+          ;
         </div>
       </section>
       <Footer />

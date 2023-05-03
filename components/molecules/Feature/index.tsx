@@ -2,27 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface FeatureProps {
-  image:
-    | "Thumbnail-1"
-    | "Thumbnail-2"
-    | "Thumbnail-3"
-    | "Thumbnail-4"
-    | "Thumbnail-5";
+  image: string;
   title: string;
   category: string;
+  id: string;
 }
 
 const ListGames = (props: FeatureProps) => {
-  const { image, title, category } = props;
+  const { image, title, category, id } = props;
   return (
     <>
       <div className="featured-game-card position-relative">
-        <Link href="/detail" legacyBehavior>
+        <Link href={`detail/${id}`} legacyBehavior>
           <a>
             <div className="blur-sharp">
               <Image
                 className="thumbnail"
-                src={`/img/${image}.png`}
+                src={`http://localhost:3000/uploads/${image}`}
                 width="205"
                 height="270"
                 alt=""

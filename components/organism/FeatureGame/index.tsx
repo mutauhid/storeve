@@ -1,7 +1,20 @@
 import ListGames from "@/components/molecules/Feature";
-import React from "react";
+import { GameItemsTypes } from "@/services/DataTypes";
+import { getFeaturedGame } from "@/services/player";
+import React, { useCallback, useEffect, useState } from "react";
 
 const FeatureGame = () => {
+  const [gameList, setGameList] = useState([]);
+
+  const getFeaturedGameList = useCallback(async () => {
+    const data = await getFeaturedGame();
+    setGameList(data);
+  }, [getFeaturedGame]);
+
+  useEffect(() => {
+    getFeaturedGameList();
+  }, []);
+
   return (
     <>
       <section className="featured-game pt-50 pb-50">
@@ -14,31 +27,15 @@ const FeatureGame = () => {
             className="d-flex flex-row flex-lg-wrap overflow-setting justify-content-lg-between gap-lg-3 gap-4"
             data-aos="fade-up"
           >
-            <ListGames
-              image="Thumbnail-1"
-              title="Super Merch"
-              category="Mobile"
-            />
-            <ListGames
-              image="Thumbnail-2"
-              title="Call Of Duty"
-              category="Mobile"
-            />
-            <ListGames
-              image="Thumbnail-3"
-              title="Mobile Legends"
-              category="Mobile"
-            />
-            <ListGames
-              image="Thumbnail-4"
-              title="Clash of Clans"
-              category="Mobile"
-            />
-            <ListGames
-              image="Thumbnail-5"
-              title="Valorant"
-              category="Desktop"
-            />
+            {gameList.map((game: GameItemsTypes) => [
+              <ListGames
+                key={game._id}
+                image={`${game.thumbnail}`}
+                title={game.name}
+                category={game.category.name}
+                id={game._id}
+              />,
+            ])}
           </div>
         </div>
       </section>
