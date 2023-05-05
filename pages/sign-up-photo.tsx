@@ -17,7 +17,6 @@ const SignUpPhoto = () => {
     name: "",
     email: "",
   });
-  const [error, setError] = useState("");
   const router = useRouter();
 
   const getCategoryAPI = useCallback(async () => {
@@ -32,30 +31,35 @@ const SignUpPhoto = () => {
 
   useEffect(() => {
     const getLocalForm = localStorage.getItem("user-form");
-    const form = JSON.parse(getLocalForm);
-    setLocalForm(form);
+    if (getLocalForm) {
+      const form = JSON.parse(getLocalForm);
+
+      setLocalForm(form);
+    }
   }, []);
 
   const onSubmit = async () => {
     try {
       const getLocalForm = await localStorage.getItem("user-form");
-      const form = JSON.parse(getLocalForm);
-      const data = new FormData();
+      if (getLocalForm) {
+        const form = JSON.parse(getLocalForm);
+        const data = new FormData();
 
-      data.append("image", image);
-      data.append("favorite", favorite);
-      data.append("name", form.name);
-      data.append("email", form.email);
-      data.append("password", form.password);
-      data.append("username", form.name);
-      data.append("phoneNumber", "08138746221");
-      data.append("role", "user");
-      data.append("status", "Y");
+        data.append("image", image);
+        data.append("favorite", favorite);
+        data.append("name", form.name);
+        data.append("email", form.email);
+        data.append("password", form.password);
+        data.append("username", form.name);
+        data.append("phoneNumber", "08138746221");
+        data.append("role", "user");
+        data.append("status", "Y");
 
-      await setSignup(data);
-      toast.success("Register Success");
-      localStorage.removeItem("user-form");
-      router.push("/sign-up-success");
+        await setSignup(data);
+        toast.success("Register Success");
+        localStorage.removeItem("user-form");
+        router.push("/sign-up-success");
+      }
     } catch (error: any) {
       const getError = error.response.data.msg;
       const errorSplit = getError.split(" ").slice(4).join(" ");

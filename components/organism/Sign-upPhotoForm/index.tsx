@@ -5,6 +5,8 @@ import React, { useCallback, useEffect, useState } from "react";
 const SignupPhotoForm = () => {
   const [categories, setCategories] = useState([]);
   const [favorite, setFavorite] = useState("");
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const getCategoryAPI = useCallback(async () => {
     const data = await getGameCategory();
