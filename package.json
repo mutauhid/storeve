@@ -24,7 +24,8 @@
     "react": "18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "18.2.0",
-    "react-number-format": "^5.1.4"
+    "react-number-format": "^5.1.4",
+    "react-toastify": "^9.1.2"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.0.2",

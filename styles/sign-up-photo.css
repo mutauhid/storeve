@@ -50,3 +50,8 @@
     }
 
 /*  */
+
+.sign-up-photo {
+    object-fit: cover;
+    border-radius: 100% ;
+}

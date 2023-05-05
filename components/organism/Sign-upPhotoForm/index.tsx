@@ -1,5 +1,5 @@
+import { CategoriesTypes } from "@/services/DataTypes";
 import { getGameCategory } from "@/services/player";
-import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";
 
 const SignupPhotoForm = () => {
@@ -41,9 +41,9 @@ const SignupPhotoForm = () => {
           className="form-select d-block w-100 rounded-pill text-lg"
           aria-label="Favorite Game"
         >
-          {categories.map((category) => {
+          {categories.map((category: CategoriesTypes) => {
             return (
-              <option value={category._id} selected>
+              <option value={category._id} selected key={category._id}>
                 {category.name}
               </option>
             );
