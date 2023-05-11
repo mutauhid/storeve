@@ -1,4 +1,65 @@
+import { NominalTypes } from "@/services/DataTypes";
+import { useEffect, useState } from "react";
+import { NumericFormat } from "react-number-format";
+
 const CheckoutDetail = () => {
+  const [dataTopup, setDataTopup] = useState({
+    bankAccountName: "",
+    verifyID: "",
+    nominalItem: {
+      coinName: "",
+      coinQuantity: 0,
+      price: 0,
+      _id: "",
+    },
+    paymentItem: {
+      bank: {
+        bankName: "",
+        name: "",
+        noRekening: "",
+        _id: "",
+      },
+      payment: {
+        banks: {
+          type: "",
+          _id: "",
+        },
+      },
+    },
+  });
+
+  const [player, setPlayer] = useState({
+    user: {
+      username: "",
+    },
+  });
+
+  useEffect(() => {
+    const dataTopupFromLocal = localStorage.getItem("data-topup");
+    const dataUserFromLocal = localStorage.getItem("user");
+    const dataTopup = JSON.parse(dataTopupFromLocal!);
+    const dataUser = JSON.parse(dataUserFromLocal!);
+    setDataTopup(dataTopup);
+    setPlayer(dataUser);
+  }, []);
+
+  const handlePrice = (data: number) => {
+    return (
+      <NumericFormat
+        value={data}
+        prefix="Rp. "
+        thousandSeparator="."
+        decimalSeparator=","
+        displayType="text"
+      />
+    );
+  };
+  const tax = (price: number, tax: number) => {
+    return price * tax;
+  };
+  const total = (price: number, tax: number) => {
+    return price + price * tax;
+  };
   return (
     <>
       <div className="purchase pt-md-50 pt-30">
@@ -6,24 +67,36 @@ const CheckoutDetail = () => {
           Purchase Details
         </h2>
         <p className="text-lg color-palette-1 mb-20">
-          Your Game ID <span className="purchase-details">masayoshizero</span>
+          Your Game ID{" "}
+          <span className="purchase-details">{dataTopup.verifyID}</span>
         </p>
         <p className="text-lg color-palette-1 mb-20">
-          Order ID <span className="purchase-details">#GG001</span>
+          Order ID{" "}
+          <span className="purchase-details">#{dataTopup.nominalItem._id}</span>
         </p>
         <p className="text-lg color-palette-1 mb-20">
-          Item <span className="purchase-details">250 Diamonds</span>
+          Item{" "}
+          <span className="purchase-details">
+            {dataTopup.nominalItem.coinQuantity}{" "}
+            {dataTopup.nominalItem.coinName}
+          </span>
         </p>
         <p className="text-lg color-palette-1 mb-20">
-          Price <span className="purchase-details">Rp 42.280.500</span>
+          Price{" "}
+          <span className="purchase-details">
+            {handlePrice(dataTopup.nominalItem.price)}
+          </span>
         </p>
         <p className="text-lg color-palette-1 mb-20">
-          Tax (10%) <span className="purchase-details">Rp 4.228.000</span>
+          Tax (11%){" "}
+          <span className="purchase-details">
+            {handlePrice(tax(dataTopup.nominalItem.price, 0.11))}
+          </span>
         </p>
         <p className="text-lg color-palette-1 mb-20">
           Total{" "}
           <span className="purchase-details color-palette-4">
-            Rp 55.000.600
+            {handlePrice(total(dataTopup.nominalItem.price, 0.11))}
           </span>
         </p>
       </div>
@@ -33,21 +106,31 @@ const CheckoutDetail = () => {
         </h2>
         <p className="text-lg color-palette-1 mb-20">
           Your Account Name{" "}
-          <span className="purchase-details">Masayoshi Angga Zero</span>
+          <span className="purchase-details">{player.user.username}</span>
         </p>
         <p className="text-lg color-palette-1 mb-20">
-          Type <span className="payment-details">Worldwide Transfer</span>
+          Type{" "}
+          <span className="payment-details">
+            {dataTopup.paymentItem.payment.banks.type}
+          </span>
         </p>
         <p className="text-lg color-palette-1 mb-20">
-          Bank Name <span className="payment-details">Mandiri</span>
+          Bank Name{" "}
+          <span className="payment-details">
+            {dataTopup.paymentItem.bank.bankName}
+          </span>
         </p>
         <p className="text-lg color-palette-1 mb-20">
           Bank Account Name{" "}
-          <span className="payment-details">PT Store GG Indonesia</span>
+          <span className="payment-details">
+            {dataTopup.paymentItem.bank.name}
+          </span>
         </p>
         <p className="text-lg color-palette-1 mb-20">
           Bank Number{" "}
-          <span className="payment-details">1800 - 9090 - 2021</span>
+          <span className="payment-details">
+            {dataTopup.paymentItem.bank.noRekening}
+          </span>
         </p>
       </div>
     </>

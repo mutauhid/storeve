@@ -32,3 +32,25 @@ export interface NominalTypes {
   coinName: string;
   price: number;
 }
+
+export interface LoginTypes {
+  email: string;
+  password: string;
+}
+
+export interface UserTypes {
+  id: string;
+  username: string;
+  email: string;
+  phoneNumber: string;
+  avatar: string;
+}
+
+export interface CheckoutTypes {
+  accountUser: string;
+  nominal: string;
+  voucher: string;
+  name: string;
+  payment: string;
+  bank: string;
+}

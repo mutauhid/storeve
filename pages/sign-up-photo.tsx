@@ -4,8 +4,7 @@ import { CategoriesTypes } from "@/services/DataTypes";
 import { getGameCategory } from "@/services/player";
 import React, { useCallback, useEffect, useState } from "react";
 import { setSignup } from "@/services/auth";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
 const SignUpPhoto = () => {
@@ -31,39 +30,34 @@ const SignUpPhoto = () => {
 
   useEffect(() => {
     const getLocalForm = localStorage.getItem("user-form");
-    if (getLocalForm) {
-      const form = JSON.parse(getLocalForm);
 
-      setLocalForm(form);
-    }
+    const form = JSON.parse(getLocalForm!);
+
+    setLocalForm(form);
   }, []);
 
   const onSubmit = async () => {
-    try {
-      const getLocalForm = await localStorage.getItem("user-form");
-      if (getLocalForm) {
-        const form = JSON.parse(getLocalForm);
-        const data = new FormData();
+    const getLocalForm = await localStorage.getItem("user-form");
+    const form = JSON.parse(getLocalForm!);
+    const data = new FormData();
 
-        data.append("image", image);
-        data.append("favorite", favorite);
-        data.append("name", form.name);
-        data.append("email", form.email);
-        data.append("password", form.password);
-        data.append("username", form.name);
-        data.append("phoneNumber", "08138746221");
-        data.append("role", "user");
-        data.append("status", "Y");
+    data.append("image", image);
+    data.append("favorite", favorite);
+    data.append("name", form.name);
+    data.append("email", form.email);
+    data.append("password", form.password);
+    data.append("username", form.name);
+    data.append("phoneNumber", "08138746221");
+    data.append("role", "user");
+    data.append("status", "Y");
 
-        await setSignup(data);
-        toast.success("Register Success");
-        localStorage.removeItem("user-form");
-        router.push("/sign-up-success");
-      }
-    } catch (error: any) {
-      const getError = error.response.data.msg;
-      const errorSplit = getError.split(" ").slice(4).join(" ");
-      toast.error(errorSplit);
+    const result = await setSignup(data);
+    if (result.error) {
+      toast.error(result.msg);
+    } else {
+      toast.success("Register Success");
+      localStorage.removeItem("user-form");
+      router.push("/sign-up-success");
     }
   };
 
@@ -163,7 +157,6 @@ const SignUpPhoto = () => {
             </div>
           </form>
         </div>
-        <ToastContainer />
       </section>
     </>
   );

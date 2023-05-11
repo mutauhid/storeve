@@ -1,7 +1,14 @@
 import React from "react";
 
-function PaymentItem(props: any) {
-  const { bankID, type, bankName } = props;
+interface PaymentItemProps {
+  bankID: string;
+  type: string;
+  bankName: string;
+  onChange: () => void;
+}
+
+function PaymentItem(props: PaymentItemProps) {
+  const { bankID, type, bankName, onChange } = props;
   return (
     <label
       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
@@ -13,6 +20,7 @@ function PaymentItem(props: any) {
         id={bankID}
         name="paymentMethod"
         value={bankID}
+        onChange={onChange}
       />
       <div className="detail-card">
         <div className="d-flex justify-content-between">

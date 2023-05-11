@@ -1,11 +1,24 @@
 const API_VERSION = "api/v1";
-import axios from "axios";
+import { LoginTypes } from "./DataTypes";
+import callAPI from "@/config/api";
 const ROOT_API = process.env.NEXT_PUBLIC_API;
 
-export async function setSignup(data) {
-  const URL = "auth/signup";
+export async function setSignup(data: FormData) {
+  const url = `${ROOT_API}/${API_VERSION}/auth/signup`;
 
-  const response = await axios.post(`${ROOT_API}/${API_VERSION}/${URL}`, data);
-  const axiosResponse = response.data;
-  return axiosResponse.data;
+  return callAPI({
+    url,
+    method: "POST",
+    data,
+  });
+}
+
+export async function setSignin(data: LoginTypes) {
+  const url = `${ROOT_API}/${API_VERSION}/auth/signin`;
+
+  return callAPI({
+    url,
+    method: "POST",
+    data,
+  });
 }

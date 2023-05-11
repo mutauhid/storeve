@@ -20,6 +20,7 @@ const Index = () => {
   const getVoucherDetailAPI = useCallback(async (id: any) => {
     const data = await getVoucherDetail(id);
     setDetailVoucher(data.details);
+    localStorage.setItem("data-details", JSON.stringify(data.details));
     setNominals(data.details.nominals);
     setPayments(data.payment);
   }, []);
