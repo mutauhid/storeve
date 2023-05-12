@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Profile from "./Profile";
 import SidebarFooter from "./SidebarFooter";
 import MenuItem from "./MenuItem";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 
 interface SidebarProps {
   activeMenu: "overview" | "transactions" | "edit-profile";

@@ -4,26 +4,28 @@ import cx from "classnames";
 interface TableProps {
   title: string;
   category: "Desktop" | "Mobile" | "Other";
-  item: number;
+  item: string;
   price: number;
   status: "Pending" | "Success" | "Failed";
-  image: "overview-1" | "overview-2" | "overview-3" | "overview-4";
+  image: "";
 }
 
 function TableRow(props: TableProps) {
-  const { title, category, item, price, image, status } = props;
+  const { title, category, item, price, image, status, coinName } = props;
   const classStatus = cx({
     "float-start icon-status": true,
     pending: status === "Pending",
     success: status === "Success",
     failed: status === "Failed",
   });
+
+  const IMG = process.env.NEXT_PUBLIC_IMG;
   return (
     <tr className="align-middle">
       <th scope="row">
         <Image
           className="float-start me-3 mb-lg-0 mb-3"
-          src={`/img/${image}.png`}
+          src={`${IMG}/${image}`}
           width={80}
           height={60}
           alt=""
@@ -38,7 +40,9 @@ function TableRow(props: TableProps) {
         </div>
       </th>
       <td>
-        <p className="fw-medium color-palette-1 m-0">{item} Gold</p>
+        <p className="fw-medium color-palette-1 m-0">
+          {item} {coinName}
+        </p>
       </td>
       <td>
         <p className="fw-medium text-start color-palette-1 m-0">{price}</p>
