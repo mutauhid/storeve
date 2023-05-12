@@ -60,11 +60,10 @@ const OverviewContent = () => {
                 {data.map((item) => {
                   return (
                     <TableRow
-                      image={`${item.historyVoucherTopup.thumbnail}`}
+                      image={item.historyVoucherTopup.thumbnail}
                       title={item.historyVoucherTopup.gameName}
                       category={item.historyVoucherTopup.category}
-                      item={item.historyVoucherTopup.coinQuantity}
-                      coinName={item.historyVoucherTopup.coinName}
+                      item={`${item.historyVoucherTopup.coinQuantity} ${item.historyVoucherTopup.coinName}`}
                       price={item.value}
                       status={item.status}
                     />

@@ -11,7 +11,7 @@ interface TableProps {
 }
 
 function TableRow(props: TableProps) {
-  const { title, category, item, price, image, status, coinName } = props;
+  const { title, category, item, price, image, status } = props;
   const classStatus = cx({
     "float-start icon-status": true,
     pending: status === "Pending",
@@ -40,9 +40,7 @@ function TableRow(props: TableProps) {
         </div>
       </th>
       <td>
-        <p className="fw-medium color-palette-1 m-0">
-          {item} {coinName}
-        </p>
+        <p className="fw-medium color-palette-1 m-0">{item}</p>
       </td>
       <td>
         <p className="fw-medium text-start color-palette-1 m-0">{price}</p>
