@@ -1,22 +1,23 @@
 import Image from "next/image";
 import cx from "classnames";
+import { NumericFormat } from "react-number-format";
 
 interface TableProps {
   title: string;
-  category: "Desktop" | "Mobile" | "Other";
+  category: string;
   item: string;
   price: number;
-  status: "Pending" | "Success" | "Failed";
-  image: "";
+  status: string;
+  image: string;
 }
 
 function TableRow(props: TableProps) {
   const { title, category, item, price, image, status } = props;
   const classStatus = cx({
     "float-start icon-status": true,
-    pending: status === "Pending",
-    success: status === "Success",
-    failed: status === "Failed",
+    pending: status === "pending",
+    success: status === "success",
+    failed: status === "failed",
   });
 
   const IMG = process.env.NEXT_PUBLIC_IMG;
@@ -43,7 +44,15 @@ function TableRow(props: TableProps) {
         <p className="fw-medium color-palette-1 m-0">{item}</p>
       </td>
       <td>
-        <p className="fw-medium text-start color-palette-1 m-0">{price}</p>
+        <p className="fw-medium text-start color-palette-1 m-0">
+          <NumericFormat
+            value={price}
+            prefix="Rp. "
+            thousandSeparator="."
+            decimalSeparator=","
+            displayType="text"
+          />
+        </p>
       </td>
       <td>
         <div>

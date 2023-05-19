@@ -14,10 +14,11 @@ interface MenuProps {
     | "menu-logout";
   active?: boolean;
   href: string;
+  onClick?: () => void;
 }
 
 const MenuItem = (props: MenuProps) => {
-  const { title, menu, active, href } = props;
+  const { title, menu, active, href, onClick } = props;
   const classItem = cx({
     item: true,
     " mb-30": true,
@@ -29,9 +30,15 @@ const MenuItem = (props: MenuProps) => {
         <Image src={`/icon/${menu}.svg`} width={25} height={25} alt="menu" />
       </div>
       <p className="item-title m-0">
-        <Link href={href} legacyBehavior>
-          <a className="text-lg text-decoration-none">{title}</a>
-        </Link>
+        {onClick ? (
+          <Link href={href} legacyBehavior onClick={onClick}>
+            <a className="text-lg text-decoration-none">{title}</a>
+          </Link>
+        ) : (
+          <a href={href} className="text-lg text-decoration-none">
+            {title}
+          </a>
+        )}
       </p>
     </div>
   );

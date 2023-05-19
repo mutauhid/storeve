@@ -17,6 +17,7 @@ export interface BankTypes {
   name: string;
   noRekening: string;
   bankName: string;
+  type: string;
 }
 
 export interface PaymentTypes {
@@ -53,4 +54,30 @@ export interface CheckoutTypes {
   name: string;
   payment: string;
   bank: string;
+}
+
+export interface HistoryVoucherTopupTypes {
+  gameName: string;
+  category: string;
+  thumbnail: string;
+  coinName: string;
+  coinQuantity: number;
+  price: number;
+}
+
+export interface historyTransactionTypes {
+  _id: string;
+  value: number;
+  status: string;
+  name: string;
+  accountUser: string;
+  tax: number;
+  historyVoucherTopup: HistoryVoucherTopupTypes;
+  historyPayment: BankTypes;
+}
+
+export interface historyCategoriesTypes {
+  _id: string;
+  value: number;
+  name: string;
 }

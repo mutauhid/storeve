@@ -1,11 +1,18 @@
+import { historyTransactionTypes } from "@/services/DataTypes";
 import DetailRow from "./DetailRow";
 
-const TransactionDetail = () => {
+interface TransactionDetailContentProps {
+  data: historyTransactionTypes;
+}
+
+const TransactionDetail = (props: TransactionDetailContentProps) => {
+  const { data } = props;
+  const IMG = process.env.NEXT_PUBLIC_IMG;
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
         <h2 className="text-4xl fw-bold color-palette-1 mb-30">
-          Details #GG001
+          Details #{data._id}
         </h2>
         <div className="details">
           <div className="main-content main-content-card overflow-auto">
@@ -15,7 +22,7 @@ const TransactionDetail = () => {
                   <div className="pe-4">
                     <div className="cropped">
                       <img
-                        src="/img/Thumbnail-3.png"
+                        src={`${IMG}/${data.historyVoucherTopup.thumbnail}`}
                         width="200"
                         height="130"
                         className="img-fluid"
@@ -25,15 +32,16 @@ const TransactionDetail = () => {
                   </div>
                   <div>
                     <p className="fw-bold text-xl color-palette-1 mb-10">
-                      Mobile Legends:
-                      <br /> The New Battle 2021
+                      {data.historyVoucherTopup.gameName}
                     </p>
-                    <p className="color-palette-2 m-0">Category: Mobile</p>
+                    <p className="color-palette-2 m-0">
+                      Category: {data.historyVoucherTopup.category}
+                    </p>
                   </div>
                 </div>
                 <div>
                   <p className="fw-medium text-center label pending m-0 rounded-pill">
-                    Pending
+                    {data.status}
                   </p>
                 </div>
               </div>
@@ -42,14 +50,17 @@ const TransactionDetail = () => {
                 <h2 className="fw-bold text-xl color-palette-1 mb-20">
                   Purchase Details
                 </h2>
-                <DetailRow label="Your Game ID" value={"masayoshizero"} />
-                <DetailRow label="Order ID" value={"#GG001"} />
-                <DetailRow label="Item" value={"250 Diamonds"} />
-                <DetailRow label="Price" value={42280500} />
-                <DetailRow label="Price" value={4228000} />
+                <DetailRow label="Your Game ID" value={data.accountUser} />
+                <DetailRow label="Order ID" value={data._id} />
                 <DetailRow
-                  label="Price"
-                  value={"55000600"}
+                  label="Item"
+                  value={`${data.historyVoucherTopup.coinQuantity} ${data.historyVoucherTopup.coinName}`}
+                />
+                <DetailRow label="Price" value={data.value} />
+                <DetailRow label="Tax" value={data.tax} />
+                <DetailRow
+                  label="Total"
+                  value={data.historyVoucherTopup.price}
                   className="color-palette-4"
                 />
               </div>
@@ -57,17 +68,20 @@ const TransactionDetail = () => {
                 <h2 className="fw-bold text-xl color-palette-1 mb-20">
                   Payment Informations
                 </h2>
+                <DetailRow label="Your Account Name" value={data.name} />
+                <DetailRow label="Type  " value={data.historyPayment.type} />
                 <DetailRow
-                  label="Your Account Name"
-                  value={"Masayoshi Angga Zero"}
+                  label="Bank Name"
+                  value={data.historyPayment.bankName}
                 />
-                <DetailRow label="Type  " value={"Worldwide Transfer"} />
-                <DetailRow label="Bank Name" value={"Mandiri"} />
                 <DetailRow
                   label="Bank Account Name"
-                  value={"PT Store GG Indonesia"}
+                  value={data.historyPayment.name}
                 />
-                <DetailRow label="Bank Number" value={"1800-9090-2021"} />
+                <DetailRow
+                  label="Bank Number"
+                  value={data.historyPayment.noRekening}
+                />
               </div>
               <div className="d-md-block d-flex flex-column w-100">
                 <a

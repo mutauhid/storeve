@@ -1,23 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Categories from "./Categories";
 import TableRow from "./TableRow";
 import { getOverview } from "@/services/player";
 import { toast } from "react-toastify";
+import {
+  historyCategoriesTypes,
+  historyTransactionTypes,
+} from "@/services/DataTypes";
 
 const OverviewContent = () => {
   const [counts, setCounts] = useState([]);
   const [data, setData] = useState([]);
+
+  const getOverviewAPI = useCallback(async () => {
+    const response = await getOverview();
+    if (response.error) {
+      toast.error(response.msg);
+    } else {
+      setCounts(response.data.count);
+      setData(response.data.dashboard);
+    }
+  }, []);
+
   useEffect(() => {
-    const getDashboard = async () => {
-      const response = await getOverview();
-      if (response.error) {
-        toast.error(response.msg);
-      } else {
-        setCounts(response.data.count);
-        setData(response.data.dashboard);
-      }
-    };
-    getDashboard();
+    getOverviewAPI();
   }, []);
 
   return (
@@ -30,9 +36,13 @@ const OverviewContent = () => {
           </p>
           <div className="main-content">
             <div className="row">
-              {counts.map((count) => {
+              {counts.map((count: historyCategoriesTypes) => {
                 return (
-                  <Categories image={`overview-desktop`} money={count.value}>
+                  <Categories
+                    key={count._id}
+                    image={`overview-desktop`}
+                    money={count.value}
+                  >
                     {count.name}
                   </Categories>
                 );
@@ -57,9 +67,10 @@ const OverviewContent = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((item) => {
+                {data.map((item: historyTransactionTypes) => {
                   return (
                     <TableRow
+                      key={item._id}
                       image={item.historyVoucherTopup.thumbnail}
                       title={item.historyVoucherTopup.gameName}
                       category={item.historyVoucherTopup.category}

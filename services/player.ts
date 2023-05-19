@@ -46,3 +46,27 @@ export async function getOverview() {
     token: true,
   });
 }
+
+export async function getMemberTransaction(value: string) {
+  let params = "";
+  if (value === "all") {
+    params = "";
+  } else {
+    params = `?status=${value}`;
+  }
+  const url = `${ROOT_API}/${API_VERSION}/players/history${params}`;
+  return callAPI({
+    url,
+    method: "GET",
+    token: true,
+  });
+}
+
+export async function getTransactionDetail(id: string, token: string) {
+  const url = `${ROOT_API}/${API_VERSION}/players/history/${id}/detail`;
+  return callAPI({
+    url,
+    method: "GET",
+    serverToken: token,
+  });
+}

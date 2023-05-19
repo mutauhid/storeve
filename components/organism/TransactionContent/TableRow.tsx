@@ -1,30 +1,33 @@
 import Link from "next/link";
 import cx from "classnames";
+import { NumericFormat } from "react-number-format";
 
 interface TableProps {
   image: string;
   title: string;
-  category: "Desktop" | "Mobile" | "Other";
-  item: number;
+  category: string;
+  item: string;
   price: number;
-  status: "Pending" | "Success" | "Failed";
+  status: string;
+  id: string;
 }
 
 const TableRow = (props: TableProps) => {
-  const { image, title, category, item, price, status } = props;
+  const { image, title, category, item, price, status, id } = props;
+  const IMG = process.env.NEXT_PUBLIC_IMG;
 
   const classStatus = cx({
     "float-start icon-status": true,
-    pending: status === "Pending",
-    failed: status === "Failed",
-    success: status === "Success",
+    pending: status === "pending",
+    failed: status === "failed",
+    success: status === "success",
   });
   return (
     <tr data-category="pending" className="align-middle">
       <th scope="row">
         <img
           className="float-start me-3 mb-lg-0 mb-3"
-          src={`/img/${image}.png`}
+          src={`${IMG}/${image}`}
           width="80"
           height="60"
           alt=""
@@ -39,10 +42,18 @@ const TableRow = (props: TableProps) => {
         </div>
       </th>
       <td>
-        <p className="fw-medium color-palette-1 m-0">{item} Gold</p>
+        <p className="fw-medium color-palette-1 m-0">{item}</p>
       </td>
       <td>
-        <p className="fw-medium color-palette-1 m-0">{price}</p>
+        <p className="fw-medium color-palette-1 m-0">
+          <NumericFormat
+            value={price}
+            prefix="Rp. "
+            thousandSeparator="."
+            decimalSeparator=","
+            displayType="text"
+          />
+        </p>
       </td>
       <td>
         <div>
@@ -53,7 +64,7 @@ const TableRow = (props: TableProps) => {
         </div>
       </td>
       <td>
-        <Link href="/member/transactions/detail" legacyBehavior>
+        <Link href={`/member/transactions/${id}`} legacyBehavior>
           <a className="btn btn-status rounded-pill text-sm">Details</a>
         </Link>
       </td>
